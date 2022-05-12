@@ -8,7 +8,7 @@ export default function Table() {
       <table>
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Naame</th>
             <th>Rotation Period</th>
             <th>Orbital Period</th>
             <th>Diameter</th>
@@ -23,29 +23,32 @@ export default function Table() {
             <th>URL</th>
           </tr>
         </thead>
-        <tbody>
-          { planets && console.log(planets) }
-          {planets && planets.results.map((planet) => (
-            <tr key={ planet.name }>
-              <td>{ planet.name }</td>
-              <td>{ planet.rotation_period }</td>
-              <td>{ planet.orbital_period }</td>
-              <td>{ planet.diameter }</td>
-              <td>{ planet.climate }</td>
-              <td>{ planet.gravity }</td>
-              <td>{ planet.terrain }</td>
-              <td>{ planet.surface_water }</td>
-              <td>{ planet.population }</td>
-              <td>
-                { planet.films
-                  .map((film, index) => (<p key={ index }>{ film }</p>)) }
-              </td>
-              <td>{ planet.created }</td>
-              <td>{ planet.edited }</td>
-              <td>{ planet.url }</td>
-            </tr>
-          ))}
-        </tbody>
+        {planets && (
+          <tbody>
+            {
+              planets.results.map((planet) => (
+                <tr key={ planet.name }>
+                  <td>{ planet.name }</td>
+                  <td>{ planet.rotation_period }</td>
+                  <td>{ planet.orbital_period }</td>
+                  <td>{ planet.diameter }</td>
+                  <td>{ planet.climate }</td>
+                  <td>{ planet.gravity }</td>
+                  <td>{ planet.terrain }</td>
+                  <td>{ planet.surface_water }</td>
+                  <td>{ planet.population }</td>
+                  <td>
+                    { planet.films
+                      .map((film, index) => (<p key={ index }>{ film }</p>)) }
+                  </td>
+                  <td>{ planet.created }</td>
+                  <td>{ planet.edited }</td>
+                  <td>{ planet.url }</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        ) }
       </table>
     </div>
   );
