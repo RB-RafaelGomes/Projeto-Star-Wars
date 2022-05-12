@@ -1,12 +1,11 @@
 import React from 'react';
-import './App.css';
-import Routes from './Routes/index.routes';
+import Table from './Components/Table';
 import MyProvider from './Context';
 
 function App() {
   return (
     <MyProvider>
-      <Routes />
+      <Table />
     </MyProvider>
   );
 }

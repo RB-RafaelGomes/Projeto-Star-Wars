@@ -1,7 +1,6 @@
 import React from 'react';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
-
 import App from './App';
 import testData from './testData';
 
@@ -35,7 +34,7 @@ const mockFetch = () => {
     }));
 };
 
-describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star Wars e preencha uma tabela com os dados retornados, com exceção dos da coluna `residents`', () => {
+describe.only('1 - Faça uma requisição para o endpoint `/planets` da API de Star Wars e preencha uma tabela com os dados retornados, com exceção dos da coluna `residents`', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 

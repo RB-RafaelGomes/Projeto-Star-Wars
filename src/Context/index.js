@@ -23,7 +23,7 @@ export default function MyProvider({ children }) {
   return (
     <MyContext.Provider value={ contextValue }>
       {children}
-      {console.log(planets)}
+      {console.log(planets.results)}
     </MyContext.Provider>
   );
 }
