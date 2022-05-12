@@ -2,9 +2,18 @@ import React, { useContext } from 'react';
 import { MyContext } from '../../Context';
 
 export default function Table() {
-  const { planets } = useContext(MyContext);
+  const { filterByName, searchInput } = useContext(MyContext);
   return (
     <div>
+      <div>
+        <form>
+          <input
+            type="text"
+            data-testid="name-filter"
+            onChange={ (e) => filterByName(e) }
+          />
+        </form>
+      </div>
       <table>
         <thead>
           <tr>
@@ -23,10 +32,10 @@ export default function Table() {
             <th>URL</th>
           </tr>
         </thead>
-        {planets && (
+        {searchInput && (
           <tbody>
             {
-              planets.results.map((planet) => (
+              searchInput.map((planet) => (
                 <tr key={ planet.name }>
                   <td>{ planet.name }</td>
                   <td>{ planet.rotation_period }</td>
