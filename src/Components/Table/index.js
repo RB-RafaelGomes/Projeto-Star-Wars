@@ -2,18 +2,9 @@ import React, { useContext } from 'react';
 import { MyContext } from '../../Context';
 
 export default function Table() {
-  const { filterByName, searchInput } = useContext(MyContext);
+  const { searchInput } = useContext(MyContext);
   return (
     <div>
-      <div>
-        <form>
-          <input
-            type="text"
-            data-testid="name-filter"
-            onChange={ (e) => filterByName(e) }
-          />
-        </form>
-      </div>
       <table>
         <thead>
           <tr>
