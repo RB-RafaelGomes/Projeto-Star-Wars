@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 import { MyContext } from '../../Context';
 
 export default function Filters() {
-  const { filterByName, setNumericValues,
-    numericValues, filterByBumericValues, columnsFilters } = useContext(MyContext);
+  const { filterByName, setNumericValues, filteredColumns,
+    numericValues, filterByBumericValues,
+    columnsFilters, removeAllFilters, removefilter } = useContext(MyContext);
 
   return (
     <div>
@@ -69,6 +70,34 @@ export default function Filters() {
       >
         Apply
       </button>
+      {
+        filteredColumns.map((eachValue, index) => (
+          <div
+            key={ index }
+            data-testid="filter"
+          >
+            {eachValue}
+            <button
+              key={ index }
+              onClick={ (e) => removefilter(e) }
+              name={ eachValue }
+              type="button"
+            >
+              x
+
+            </button>
+          </div>
+        ))
+      }
+      <div>
+        <button
+          data-testid="button-remove-filters"
+          type="button"
+          onClick={ (e) => removeAllFilters(e) }
+        >
+          REMOVE FILTROS
+        </button>
+      </div>
     </div>
   );
 }
