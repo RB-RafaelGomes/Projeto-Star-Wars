@@ -3,7 +3,7 @@ import { MyContext } from '../../Context';
 
 export default function Filters() {
   const { filterByName, setNumericValues,
-    numericValues, filterByBumericValues } = useContext(MyContext);
+    numericValues, filterByBumericValues, columnsFilters } = useContext(MyContext);
 
   return (
     <div>
@@ -25,11 +25,11 @@ export default function Filters() {
             });
           } }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {
+            columnsFilters.map((value, index) => (
+              <option key={ index } value={ value }>{value}</option>
+            ))
+          }
         </select>
       </label>
       <label htmlFor="comparison-filter">

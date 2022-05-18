@@ -6,7 +6,8 @@ export const MyContext = createContext();
 
 export default function MyProvider({ children }) {
   const [planets, setPlanets] = useState('');
-  // const [savePlanets, setSavePlanets] = useState('');
+  const [columnsFilters, setColumnsFilters] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [searchInput, setSearchInput] = useState('');
   const [numericValues, setNumericValues] = useState({
     column: 'population',
@@ -38,16 +39,19 @@ export default function MyProvider({ children }) {
       console.log(planets);
       setSearchInput(searchInput.filter((planet) => Number(planet[numericValues.column])
        > Number(numericValues.value)));
+      setColumnsFilters(columnsFilters.filter((value) => value !== numericValues.column));
       break;
     case 'igual a':
       console.log(planets);
       setSearchInput(searchInput.filter((planet) => planet[numericValues.column]
        === numericValues.value));
+      setColumnsFilters(columnsFilters.filter((value) => value !== numericValues.column));
       break;
     case 'menor que':
       console.log(planets);
       setSearchInput(searchInput.filter((planet) => Number(planet[numericValues.column])
        < Number(numericValues.value)));
+      setColumnsFilters(columnsFilters.filter((value) => value !== numericValues.column));
       break;
     default:
       setSearchInput(planets);
@@ -58,6 +62,7 @@ export default function MyProvider({ children }) {
     planets,
     searchInput,
     numericValues,
+    columnsFilters,
     filterByName,
     setNumericValues,
     filterByBumericValues,
