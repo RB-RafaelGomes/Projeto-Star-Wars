@@ -36,17 +36,17 @@ export default function MyProvider({ children }) {
     switch (numericValues.comparison) {
     case 'maior que':
       console.log(planets);
-      setSearchInput(planets.filter((planet) => Number(planet[numericValues.column])
+      setSearchInput(searchInput.filter((planet) => Number(planet[numericValues.column])
        > Number(numericValues.value)));
       break;
     case 'igual a':
       console.log(planets);
-      setSearchInput(planets.filter((planet) => planet[numericValues.column]
+      setSearchInput(searchInput.filter((planet) => planet[numericValues.column]
        === numericValues.value));
       break;
     case 'menor que':
       console.log(planets);
-      setSearchInput(planets.filter((planet) => Number(planet[numericValues.column])
+      setSearchInput(searchInput.filter((planet) => Number(planet[numericValues.column])
        < Number(numericValues.value)));
       break;
     default:

@@ -295,7 +295,7 @@ describe.only('3 - Crie um filtro para valores numéricos', () => {
   });
 });
 
-describe('4 - Implemente múltiplos filtros numéricos', () => {
+describe.only('4 - Implemente múltiplos filtros numéricos', () => {
   it('Adicione dois filtros e verifique se a tabela foi atualizada com as informações filtradas', async () => {
     await act(async () => {
       render(<App />);
