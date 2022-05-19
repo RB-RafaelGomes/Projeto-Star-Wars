@@ -1,10 +1,16 @@
 import React, { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { sort, createNewSortInstance } from 'fast-sort';
 import fetchPlanetes from '../services';
 
 export const MyContext = createContext();
 
 export default function MyProvider({ children }) {
+  // const [randomValue, setRandomValue] = useState('');
+  const [sortInputs, setSortInputs] = useState('ASC');
+  const [allfilters] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const [orderSelect, setOrderSelect] = useState('population');
   const [planets, setPlanets] = useState('');
   const [savePlanetsFilter, setSavePlanetsFilter] = useState({
     xablau: 'xablau',
@@ -21,16 +27,17 @@ export default function MyProvider({ children }) {
 
   async function getPlatenets() {
     const data = await fetchPlanetes();
+    // const dataSorte = await fetchPlanetesForSorted();
     if (data) {
-      setPlanets(data.results);
-      setSearchInput(data.results);
+      const fullData = sort(data.results).asc((planet) => planet.name);
+      setPlanets(fullData);
+      setSearchInput(fullData);
     }
   }
 
   const filterByName = ({ target }) => {
     const { value } = target;
     if (value.length >= 1) {
-      console.log(value);
       setSearchInput(planets.filter((planet) => planet.name.includes(value)));
     } else {
       setSearchInput(planets);
@@ -47,21 +54,17 @@ export default function MyProvider({ children }) {
       > Number(numericValues.value)));
       setColumnsFilters(columnsFilters.filter((value) => value !== numericValues.column));
       setFilteredColumns([...filteredColumns, numericValues.column]);
-      console.log(savePlanetsFilter);
-      console.log(searchInput);
       break;
     case 'igual a':
       setSavePlanetsFilter({ ...savePlanetsFilter,
         [numericValues.column]: searchInput,
       });
-      console.log(planets);
       setSearchInput(searchInput.filter((planet) => planet[numericValues.column]
        === numericValues.value));
       setColumnsFilters(columnsFilters.filter((value) => value !== numericValues.column));
       setFilteredColumns([...filteredColumns, numericValues.column]);
       break;
     case 'menor que':
-      console.log(planets);
       setSavePlanetsFilter({ ...savePlanetsFilter,
         [numericValues.column]: searchInput,
       });
@@ -80,15 +83,13 @@ export default function MyProvider({ children }) {
     setFilteredColumns(filteredColumns.filter((eachValue) => !eachValue.includes(name)));
     const objInArray = Object.values(savePlanetsFilter[name]);
     const allValues = [...searchInput, ...objInArray];
-    // const onlyName = searchInput.map((eachValue) => eachValue.name);
     const filteredArr = allValues.reduce((acc, current) => {
-      const x = acc.find((item) => item.name === current.name);
-      if (!x) {
+      const value = acc.find((item) => item.name === current.name);
+      if (!value) {
         return acc.concat([current]);
       }
       return acc;
     }, []);
-    console.log(filteredArr);
     setSearchInput(filteredArr);
   };
 
@@ -101,12 +102,40 @@ export default function MyProvider({ children }) {
     setSearchInput(planets);
   };
 
+  const SETTHISPLANETS = () => {
+    const newSortInstance = createNewSortInstance({
+      comparer: new Intl.Collator(undefined, { numeric: true }).compare,
+    });
+
+    if (sortInputs === 'ASC') {
+      const ascSorted = newSortInstance(planets)
+        .asc((planet) => Number(planet[orderSelect]));
+      setSearchInput(ascSorted);
+    } else if (sortInputs === 'DESC') {
+      const descSorted = newSortInstance(planets)
+        .desc((planet) => Number(planet[orderSelect]) || 0);
+      setSearchInput(descSorted);
+    }
+  };
+
+  const handleInputChange = ({ target }) => {
+    const { value } = target;
+    setSortInputs(value);
+  };
+
   const contextValue = {
     planets,
     searchInput,
     numericValues,
     columnsFilters,
     filteredColumns,
+    allfilters,
+    orderSelect,
+    sortInputs,
+    setSearchInput,
+    SETTHISPLANETS,
+    handleInputChange,
+    setOrderSelect,
     setFilteredColumns,
     filterByName,
     setNumericValues,

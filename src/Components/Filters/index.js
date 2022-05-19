@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 import { MyContext } from '../../Context';
 
 export default function Filters() {
-  const { filterByName, setNumericValues, filteredColumns,
-    numericValues, filterByBumericValues,
+  const { filterByName, setNumericValues, filteredColumns, SETTHISPLANETS,
+    numericValues, filterByBumericValues, allfilters,
+    orderSelect, setOrderSelect, handleInputChange,
     columnsFilters, removeAllFilters, removefilter } = useContext(MyContext);
 
   return (
@@ -96,6 +97,56 @@ export default function Filters() {
           onClick={ (e) => removeAllFilters(e) }
         >
           REMOVE FILTROS
+        </button>
+      </div>
+      <div>
+        <select
+          data-testid="column-sort"
+          value={ orderSelect }
+          name="column-sort"
+          onChange={ ({ target }) => {
+            const { value } = target;
+            setOrderSelect(value);
+          } }
+        >
+          {
+            allfilters.map((value, index) => (
+              <option
+                key={ index }
+                value={ value }
+              >
+                {value}
+
+              </option>
+            ))
+          }
+        </select>
+        <label htmlFor="ASC">
+          Ascendente
+          <input
+            data-testid="column-sort-input-asc"
+            onChange={ (e) => handleInputChange(e) }
+            type="radio"
+            name="sortInput"
+            value="ASC"
+          />
+        </label>
+        <label htmlFor="DESC">
+          Descendente
+          <input
+            data-testid="column-sort-input-desc"
+            onChange={ (e) => handleInputChange(e) }
+            type="radio"
+            name="sortInput"
+            value="DESC"
+          />
+        </label>
+        <button
+          data-testid="column-sort-button"
+          type="button"
+          onClick={ () => SETTHISPLANETS() }
+        >
+          Order
         </button>
       </div>
     </div>

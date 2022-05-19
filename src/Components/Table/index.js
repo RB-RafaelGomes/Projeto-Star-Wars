@@ -1,8 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { MyContext } from '../../Context';
 
 export default function Table() {
-  const { searchInput } = useContext(MyContext);
+  // const [renderState, setRenderState] = useState();
+  const { searchInput, setSearchInput } = useContext(MyContext);
+  useEffect(() => {
+    setSearchInput(searchInput);
+  }, [searchInput, setSearchInput]);
   return (
     <div>
       <table>
@@ -28,7 +32,7 @@ export default function Table() {
             {
               searchInput.map((planet) => (
                 <tr key={ planet.name }>
-                  <td>{ planet.name }</td>
+                  <td data-testid="planet-name">{ planet.name }</td>
                   <td>{ planet.rotation_period }</td>
                   <td>{ planet.orbital_period }</td>
                   <td>{ planet.diameter }</td>
